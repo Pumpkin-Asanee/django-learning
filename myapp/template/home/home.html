@@ -1,111 +1,180 @@
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <head>
+        <title>Bootstrap Example</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link
+            rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+        />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <style>
+            /* Remove the navbar's default margin-bottom and rounded borders */
+            .navbar {
+                margin-bottom: 0;
+                border-radius: 0;
+            }
 
-    <title>My Profile</title>
+            /* Add a gray background color and some padding to the footer */
+            footer {
+                background-color: #f2f2f2;
+                padding: 25px;
+            }
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+            .carousel-inner img {
+                width: 100%; /* Set width to 100% */
+                margin: auto;
+                min-height: 200px;
+            }
 
-        body {
-            font-family: Arial, sans-serif;
-            background: #f5f5f5;
-            color: #222;
-            min-height: 100vh;
+            /* Hide the carousel text when the screen is less than 600 pixels wide */
+            @media (max-width: 600px) {
+                .carousel-caption {
+                    display: none;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button
+                        type="button"
+                        class="navbar-toggle"
+                        data-toggle="collapse"
+                        data-target="#myNavbar"
+                    >
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#" style="color: skyblue; font-weight: bold;">MoreMusic</a>
+                </div>
+                <div class="collapse navbar-collapse" id="myNavbar">
+                    <ul class="nav navbar-nav">
+                        <li class=""><a href="#">Home</a></li>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Projects</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="#"
+                                ><span
+                                    class="glyphicon glyphicon-log-in"
+                                ></span>
+                                Login</a
+                            >
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
 
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
 
-        .profile {
-            width: 360px;
-            background: white;
-            padding: 40px 30px;
-            border-radius: 16px;
-            text-align: center;
-
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-        }
-
-        .profile img {
-            width: 110px;
-            height: 110px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-bottom: 20px;
-        }
-
-        .profile h1 {
-            font-size: 26px;
-            margin-bottom: 8px;
-        }
-
-        .profile .role {
-            color: #777;
-            margin-bottom: 20px;
-        }
-
-        .profile p {
-            color: #555;
-            line-height: 1.6;
-            margin-bottom: 25px;
-        }
-
-        .socials {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-        }
-
-        .socials a {
-            text-decoration: none;
-            color: #222;
-            border: 1px solid #ddd;
-            padding: 8px 14px;
-            border-radius: 8px;
-            transition: 0.2s;
-        }
-
-        .socials a:hover {
-            background: #222;
-            color: white;
-        }
-    </style>
-</head>
-
-<body>
-
-    <div class="profile">
-
-        <img src="https://i.pravatar.cc/150" alt="Profile">
-
-        <h1>Your Name</h1>
-
-        <div class="role">
-            Full Stack Developer
+        <div class="container text-center">
+            <h3>Selected Albums</h3>
+            <br />
+            <div class="row">
+                <div class="col-sm-4">
+                    <img
+                        src="https://image.joox.com/JOOXcover/0/8c769a49ba798f42/1000?.jpg"
+                        class="img-responsive"
+                        style="width: 100%"
+                        alt="Image"
+                    />
+                    <p>บ้าหอบฟาง</p>
+                </div>
+                <div class="col-sm-4">
+                    <img
+                        src="https://i.scdn.co/image/ab67616d0000b273c9e3d7d3d0713cfe5c8ae75b"
+                        class="img-responsive"
+                        style="width: 100%"
+                        alt="Image"
+                    />
+                    <p>ผักชีโรยหน้า</p>
+                </div>
+                <div class="col-sm-4">
+                    <img
+                        src="https://musicstation.kapook.com/files_music2008/picture/0/2244.jpg"
+                        class="img-responsive"
+                        style="width: 100%"
+                        alt="Image"
+                    />
+                    <p>กระดี่ได้น้ำ</p>
+                </div>
+                <div class="col-sm-4">
+                    <img
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnJ21ptXK79hcmag7HrQ_W7U_-3FGcjDLZ0ft0u7DI0Q&s=10"
+                        class="img-responsive"
+                        style="width: 100%"
+                        alt="Image"
+                    />
+                    <p>ฟักทอง</p>
+                </div>
+                <div class="col-sm-4">
+                    <img
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQom3xCprKlK7xazCTwZ-MBuQ1Nte7UedLkuQ5Ey2SvA&s"
+                        class="img-responsive"
+                        style="width: 100%"
+                        alt="Image"
+                    />
+                    <p>สับปะรด</p>
+                </div>
+                <div class="col-sm-4">
+                    <img
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7xK3cOPBLJIKDYruAl4vmk_cm2050KpLjRyYkhDzfSg&s=10"
+                        class="img-responsive"
+                        style="width: 100%"
+                        alt="Image"
+                    />
+                    <p>รุ้งกินน้ำ</p>
+                </div>
+                <div class="col-sm-4">
+                    <img
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTEMFIMwLeOV4rkjX9t_sM7oPmm5FEe8YeKxkwNVr_1g&s=10"
+                        class="img-responsive"
+                        style="width: 100%"
+                        alt="Image"
+                    />
+                    <p>บางอ้อ</p>
+                </div>
+                <div class="col-sm-4">
+                    <img
+                        src="https://i.scdn.co/image/ab67616d00001e02247b8e511a71f067140a4348"
+                        class="img-responsive"
+                        style="width: 100%;"
+                        alt="Image"
+                    />
+                    <p>จินตนาการ</p>
+                </div>
+                <div class="col-sm-4">
+                    <img
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-7OA7k3SlGzDiaIAW_5B6nAWdZHFv1SfB9tAQL3j_6if-I8fVl_cigqkE&s=10"
+                        class="img-responsive"
+                        style="width: 100%"
+                        alt="Image"
+                    />
+                    <p>เด็กเลี้ยงแกะ</p>
+                </div>
+                <div class="col-sm-4">
+                    <img
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6iL6jQXqXS8KD85sT7ekJ3zGfS4G3T_ODH5YxFjdUnw&s=10"
+                        class="img-responsive"
+                        style="width: 100%"
+                        alt="Image"
+                    />
+                    <p>พักร้อน</p>
+                </div>
+            </div>
         </div>
+        <br />
 
-        <p>
-            Hello! I'm a developer who enjoys building
-            simple and useful web applications.
-        </p>
-
-        <div class="socials">
-            <a href="#">GitHub</a>
-            <a href="#">LinkedIn</a>
-            <a href="#">Email</a>
-        </div>
-
-    </div>
-
-</body>
+        <footer class="container-fluid text-center">
+            <p>Footer Text</p>
+        </footer>
+    </body>
 </html>
-
