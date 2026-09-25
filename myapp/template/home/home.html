@@ -1,180 +1,705 @@
+
+
 <!doctype html>
-<html lang="en">
-    <head>
-        <title>Bootstrap Example</title>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link
-            rel="stylesheet"
-            href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
-        />
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-        <style>
-            /* Remove the navbar's default margin-bottom and rounded borders */
-            .navbar {
-                margin-bottom: 0;
-                border-radius: 0;
+<html lang="th">
+
+<head>
+    <meta charset="utf-8" />
+    <title>MoreMusic — อัลบั้มที่คัดสรร</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg: #1c1420;
+            --bg-alt: #241a2a;
+            --surface: #2e2233;
+            --surface-line: #4a3a4d;
+            --text: #f2e8da;
+            --text-dim: #b9a9bb;
+            --gold: #cf9f3a;
+            --gold-bright: #e3b657;
+            --rust: #c15b34;
+            --disc: #12161b;
+            --disc-groove: rgba(242, 232, 218, 0.06);
+        }
+
+        :root:not([data-theme="light"]) {
+            color-scheme: dark;
+        }
+
+        :root[data-theme="light"] {
+            --bg: #f4ecd8;
+            --bg-alt: #ece0c6;
+            --surface: #fffaf0;
+            --surface-line: #ddc9a3;
+            --text: #241a20;
+            --text-dim: #6b5c53;
+            --gold: #a9781f;
+            --gold-bright: #8a611a;
+            --rust: #a8471f;
+            --disc: #241a20;
+            --disc-groove: rgba(36, 26, 32, 0.08);
+        }
+
+        @media (prefers-color-scheme: light) {
+            :root:not([data-theme="dark"]) {
+                --bg: #f4ecd8;
+                --bg-alt: #ece0c6;
+                --surface: #fffaf0;
+                --surface-line: #ddc9a3;
+                --text: #241a20;
+                --text-dim: #6b5c53;
+                --gold: #a9781f;
+                --gold-bright: #8a611a;
+                --rust: #a8471f;
+                --disc: #241a20;
+                --disc-groove: rgba(36, 26, 32, 0.08);
+                color-scheme: light;
+            }
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-padding-top: calc(4.5rem + env(safe-area-inset-top, 0px));
+            scroll-behavior: smooth;
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--text);
+            font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+            padding-top: env(safe-area-inset-top, 0px);
+            padding-bottom: env(safe-area-inset-bottom, 0px);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        .display {
+            font-family: "Fraunces", Georgia, "Times New Roman", serif;
+        }
+
+        /* ---------- Nav ---------- */
+        header.site-nav {
+            position: sticky;
+            top: 0;
+            top: env(safe-area-inset-top, 0px);
+            z-index: 50;
+            padding-top: env(safe-area-inset-top, 0px);
+            background: color-mix(in srgb, var(--bg) 88%, transparent);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--surface-line);
+        }
+
+        .nav-inner {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 0.9rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .brand {
+            font-family: "Fraunces", serif;
+            font-style: italic;
+            font-weight: 500;
+            font-size: 1.4rem;
+            letter-spacing: 0.01em;
+            color: var(--gold-bright);
+            white-space: nowrap;
+        }
+
+        .brand span {
+            color: var(--text);
+            font-style: normal;
+        }
+
+        nav.links {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        nav.links a {
+            font-size: 0.95rem;
+            color: var(--text-dim);
+            transition: color 0.2s ease;
+        }
+
+        nav.links a:hover,
+        nav.links a:focus-visible {
+            color: var(--text);
+        }
+
+        .login-pill {
+            border: 1px solid var(--surface-line);
+            border-radius: 999px;
+            padding: 0.45rem 1.1rem !important;
+            color: var(--text) !important;
+        }
+
+        .login-pill:hover {
+            border-color: var(--gold);
+        }
+
+        #nav-toggle {
+            display: none;
+        }
+
+        .burger {
+            display: none;
+            width: 2.1rem;
+            height: 2.1rem;
+            border: 1px solid var(--surface-line);
+            border-radius: 8px;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .burger span {
+            width: 18px;
+            height: 2px;
+            background: var(--text);
+            display: block;
+        }
+
+        @media (max-width: 720px) {
+            nav.links {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0;
+                background: var(--bg-alt);
+                border-bottom: 1px solid var(--surface-line);
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.25s ease;
             }
 
-            /* Add a gray background color and some padding to the footer */
-            footer {
-                background-color: #f2f2f2;
-                padding: 25px;
+            nav.links a {
+                padding: 0.9rem 1.5rem;
+                width: 100%;
+                border-top: 1px solid var(--surface-line);
             }
 
-            .carousel-inner img {
-                width: 100%; /* Set width to 100% */
-                margin: auto;
-                min-height: 200px;
+            #nav-toggle:checked~nav.links {
+                max-height: 260px;
             }
 
-            /* Hide the carousel text when the screen is less than 600 pixels wide */
-            @media (max-width: 600px) {
-                .carousel-caption {
-                    display: none;
-                }
+            .burger {
+                display: inline-flex;
             }
-        </style>
-    </head>
-    <body>
-        <nav class="navbar navbar-inverse">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <button
-                        type="button"
-                        class="navbar-toggle"
-                        data-toggle="collapse"
-                        data-target="#myNavbar"
-                    >
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="#" style="color: skyblue; font-weight: bold;">MoreMusic</a>
-                </div>
-                <div class="collapse navbar-collapse" id="myNavbar">
-                    <ul class="nav navbar-nav">
-                        <li class=""><a href="#">Home</a></li>
-                        <li><a href="#">About</a></li>
-                        <li><a href="#">Projects</a></li>
-                        <li><a href="#">Contact</a></li>
-                    </ul>
-                    <ul class="nav navbar-nav navbar-right">
-                        <li>
-                            <a href="#"
-                                ><span
-                                    class="glyphicon glyphicon-log-in"
-                                ></span>
-                                Login</a
-                            >
-                        </li>
-                    </ul>
-                </div>
+        }
+
+        /* ---------- Hero ---------- */
+        .hero {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: clamp(3rem, 8vw, 6rem) 1.5rem clamp(2.5rem, 6vw, 4rem);
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: clamp(2rem, 5vw, 4rem);
+            align-items: center;
+        }
+
+        @media (max-width: 800px) {
+            .hero {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-disc {
+                order: -1;
+                margin: 0 auto;
+            }
+        }
+
+        .eyebrow-note {
+            font-size: 0.95rem;
+            color: var(--gold-bright);
+            margin: 0 0 0.9rem;
+        }
+
+        .hero h1 {
+            margin: 0 0 1.1rem;
+            font-weight: 500;
+            font-size: clamp(2.4rem, 5.6vw, 4rem);
+            line-height: 1.05;
+        }
+
+        .hero p {
+            margin: 0 0 1.8rem;
+            color: var(--text-dim);
+            font-size: 1.08rem;
+            line-height: 1.65;
+            max-width: 46ch;
+        }
+
+        @media (max-width: 800px) {
+            .hero p {
+                margin-inline: auto;
+            }
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: var(--gold);
+            color: #1c1420;
+            font-weight: 600;
+            padding: 0.85rem 1.6rem;
+            border-radius: 999px;
+            transition: background 0.2s ease, transform 0.2s ease;
+        }
+
+        .hero-cta:hover {
+            background: var(--gold-bright);
+            transform: translateY(-1px);
+        }
+
+        .hero-disc {
+            position: relative;
+            width: min(280px, 60vw);
+            aspect-ratio: 1;
+        }
+
+        .hero-disc svg {
+            width: 100%;
+            height: 100%;
+            animation: spin 9s linear infinite;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .hero-disc svg {
+                animation: none;
+            }
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ---------- Album section ---------- */
+        .section {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem clamp(3rem, 6vw, 5rem);
+        }
+
+        .section-head {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 1rem;
+            border-bottom: 1px solid var(--surface-line);
+            padding-bottom: 1rem;
+            margin-bottom: 2.2rem;
+        }
+
+        .section-head h2 {
+            margin: 0;
+            font-weight: 500;
+            font-size: clamp(1.6rem, 3.4vw, 2.3rem);
+        }
+
+        .section-head .count {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+
+        .album-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+            gap: clamp(1.6rem, 3vw, 2.4rem) clamp(1.2rem, 3vw, 2rem);
+        }
+
+        .album {
+            position: relative;
+        }
+
+        .album-art {
+            position: relative;
+            aspect-ratio: 1;
+            isolation: isolate;
+        }
+
+        .album-art .disc-peek {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background:
+                repeating-radial-gradient(circle at center, var(--disc-groove) 0 1px, transparent 1px 4px),
+                radial-gradient(circle at 34% 32%, #3a3f46 0%, var(--disc) 55%);
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+            transform: translateX(0%);
+            transition: transform 0.35s cubic-bezier(.2, .8, .2, 1);
+            z-index: 0;
+        }
+
+        .album-art .disc-peek::after {
+            content: "";
+            position: absolute;
+            inset: 38%;
+            border-radius: 50%;
+            background: var(--gold);
+            box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.3);
+        }
+
+        .album-art .disc-peek::before {
+            content: "";
+            position: absolute;
+            inset: 47%;
+            border-radius: 50%;
+            background: var(--bg);
+        }
+
+        .album-art .cover {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+            transition: transform 0.35s cubic-bezier(.2, .8, .2, 1);
+            background: var(--surface);
+        }
+
+        .album-art:hover .cover,
+        .album-art:focus-within .cover {
+            transform: translateX(-14%) rotate(-2deg);
+        }
+
+        .album-art:hover .disc-peek,
+        .album-art:focus-within .disc-peek {
+            transform: translateX(14%);
+        }
+
+        .play-btn {
+            position: absolute;
+            z-index: 2;
+            right: 0.6rem;
+            bottom: 0.6rem;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            background: var(--gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: scale(0.85);
+            transition: opacity 0.25s ease, transform 0.25s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .album-art:hover .play-btn,
+        .album-art:focus-within .play-btn {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .play-btn svg {
+            width: 14px;
+            height: 14px;
+            fill: #1c1420;
+            margin-left: 2px;
+        }
+
+        .album h3 {
+            margin: 1rem 0 0.2rem;
+            font-family: "Fraunces", serif;
+            font-weight: 500;
+            font-size: 1.08rem;
+        }
+
+        .album p {
+            margin: 0;
+            font-size: 0.85rem;
+            color: var(--text-dim);
+        }
+
+        /* ---------- Footer ---------- */
+        footer {
+            border-top: 1px solid var(--surface-line);
+            background: var(--bg-alt);
+        }
+
+        .footer-inner {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 2.4rem 1.5rem calc(2.4rem + env(safe-area-inset-bottom, 0px));
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .footer-inner p {
+            margin: 0;
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 1.4rem;
+        }
+
+        .footer-links a {
+            font-size: 0.9rem;
+            color: var(--text-dim);
+        }
+
+        .footer-links a:hover {
+            color: var(--gold-bright);
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--gold);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="site-nav">
+        <div class="nav-inner">
+            <a href="#top" class="brand"><span>More</span>Music</a>
+            <input type="checkbox" id="nav-toggle" />
+            <label for="nav-toggle" class="burger" aria-label="เปิดเมนู"><span></span><span></span><span></span></label>
+            <nav class="links">
+                <a href="#top">หน้าแรก</a>
+                <a href="#albums">อัลบั้ม</a>
+                <a href="#top">เกี่ยวกับ</a>
+                <a href="#top">ติดต่อ</a>
+                <a href="#top" class="login-pill">เข้าสู่ระบบ</a>
+            </nav>
+        </div>
+    </header>
+
+    <main id="top">
+        <section class="hero">
+            <div>
+                <p class="eyebrow-note">เพลงที่คัดสรรมาให้คุณ</p>
+                <h1 class="display">เสียงเพลง<br>ที่เล่าเรื่องราว</h1>
+                <p>สิบอัลบั้มที่คัดมาเป็นพิเศษ ตั้งแต่เพลงฟังสบายไปจนถึงจังหวะที่ชวนโยกตาม
+                    แต่ละปกคือประตูสู่เพลงข้างใน — ลองสัมผัสดู</p>
+                <a href="#albums" class="hero-cta">สุ่มเพลงจากอัลบั้มทั้งหมด</a>
             </div>
-        </nav>
+            <div class="hero-disc" aria-hidden="true">
+                <svg viewBox="0 0 200 200">
+                    <defs>
+                        <radialGradient id="vinylGrad" cx="35%" cy="32%" r="75%">
+                            <stop offset="0%" stop-color="#454b53" />
+                            <stop offset="55%" stop-color="#181c21" />
+                            <stop offset="100%" stop-color="#0d0f12" />
+                        </radialGradient>
+                    </defs>
+                    <circle cx="100" cy="100" r="98" fill="url(#vinylGrad)" />
+                    <g stroke="rgba(242,232,218,0.07)" fill="none">
+                        <circle cx="100" cy="100" r="86" />
+                        <circle cx="100" cy="100" r="74" />
+                        <circle cx="100" cy="100" r="62" />
+                        <circle cx="100" cy="100" r="50" />
+                    </g>
+                    <circle cx="100" cy="100" r="34" fill="#cf9f3a" />
+                    <circle cx="100" cy="100" r="6" fill="#181c21" />
+                </svg>
+            </div>
+        </section>
 
+        <section class="section" id="albums">
+            <div class="section-head">
+                <h2 class="display">อัลบั้มที่คัดสรร</h2>
+                <span class="count">10 อัลบั้ม</span>
+            </div>
+            <div class="album-grid">
 
-        <div class="container text-center">
-            <h3>Selected Albums</h3>
-            <br />
-            <div class="row">
-                <div class="col-sm-4">
-                    <img
-                        src="https://image.joox.com/JOOXcover/0/8c769a49ba798f42/1000?.jpg"
-                        class="img-responsive"
-                        style="width: 100%"
-                        alt="Image"
-                    />
-                    <p>บ้าหอบฟาง</p>
-                </div>
-                <div class="col-sm-4">
-                    <img
-                        src="https://i.scdn.co/image/ab67616d0000b273c9e3d7d3d0713cfe5c8ae75b"
-                        class="img-responsive"
-                        style="width: 100%"
-                        alt="Image"
-                    />
-                    <p>ผักชีโรยหน้า</p>
-                </div>
-                <div class="col-sm-4">
-                    <img
-                        src="https://musicstation.kapook.com/files_music2008/picture/0/2244.jpg"
-                        class="img-responsive"
-                        style="width: 100%"
-                        alt="Image"
-                    />
-                    <p>กระดี่ได้น้ำ</p>
-                </div>
-                <div class="col-sm-4">
-                    <img
-                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnJ21ptXK79hcmag7HrQ_W7U_-3FGcjDLZ0ft0u7DI0Q&s=10"
-                        class="img-responsive"
-                        style="width: 100%"
-                        alt="Image"
-                    />
-                    <p>ฟักทอง</p>
-                </div>
-                <div class="col-sm-4">
-                    <img
-                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQom3xCprKlK7xazCTwZ-MBuQ1Nte7UedLkuQ5Ey2SvA&s"
-                        class="img-responsive"
-                        style="width: 100%"
-                        alt="Image"
-                    />
-                    <p>สับปะรด</p>
-                </div>
-                <div class="col-sm-4">
-                    <img
-                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7xK3cOPBLJIKDYruAl4vmk_cm2050KpLjRyYkhDzfSg&s=10"
-                        class="img-responsive"
-                        style="width: 100%"
-                        alt="Image"
-                    />
-                    <p>รุ้งกินน้ำ</p>
-                </div>
-                <div class="col-sm-4">
-                    <img
-                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTEMFIMwLeOV4rkjX9t_sM7oPmm5FEe8YeKxkwNVr_1g&s=10"
-                        class="img-responsive"
-                        style="width: 100%"
-                        alt="Image"
-                    />
-                    <p>บางอ้อ</p>
-                </div>
-                <div class="col-sm-4">
-                    <img
-                        src="https://i.scdn.co/image/ab67616d00001e02247b8e511a71f067140a4348"
-                        class="img-responsive"
-                        style="width: 100%;"
-                        alt="Image"
-                    />
-                    <p>จินตนาการ</p>
-                </div>
-                <div class="col-sm-4">
-                    <img
-                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-7OA7k3SlGzDiaIAW_5B6nAWdZHFv1SfB9tAQL3j_6if-I8fVl_cigqkE&s=10"
-                        class="img-responsive"
-                        style="width: 100%"
-                        alt="Image"
-                    />
-                    <p>เด็กเลี้ยงแกะ</p>
-                </div>
-                <div class="col-sm-4">
-                    <img
-                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6iL6jQXqXS8KD85sT7ekJ3zGfS4G3T_ODH5YxFjdUnw&s=10"
-                        class="img-responsive"
-                        style="width: 100%"
-                        alt="Image"
-                    />
-                    <p>พักร้อน</p>
-                </div>
+                <article class="album">
+                    <div class="album-art">
+                        <div class="disc-peek"></div>
+                        <img class="cover" src="https://image.joox.com/JOOXcover/0/8c769a49ba798f42/1000?.jpg"
+                            alt="ปก บ้าหอบฟาง" loading="lazy" />
+                        <button class="play-btn" aria-label="เล่น บ้าหอบฟาง"><svg viewBox="0 0 24 24">
+                                <path d="M6 4l15 8-15 8z" />
+                            </svg></button>
+                    </div>
+                    <h3>บ้าหอบฟาง</h3>
+                    <p>อัลบั้มแนะนำ</p>
+                </article>
+
+                <article class="album">
+                    <div class="album-art">
+                        <div class="disc-peek"></div>
+                        <img class="cover" src="https://i.scdn.co/image/ab67616d0000b273c9e3d7d3d0713cfe5c8ae75b"
+                            alt="ปก ผักชีโรยหน้า" loading="lazy" />
+                        <button class="play-btn" aria-label="เล่น ผักชีโรยหน้า"><svg viewBox="0 0 24 24">
+                                <path d="M6 4l15 8-15 8z" />
+                            </svg></button>
+                    </div>
+                    <h3>ผักชีโรยหน้า</h3>
+                    <p>อัลบั้มแนะนำ</p>
+                </article>
+
+                <article class="album">
+                    <div class="album-art">
+                        <div class="disc-peek"></div>
+                        <img class="cover" src="https://musicstation.kapook.com/files_music2008/picture/0/2244.jpg"
+                            alt="ปก กระดี่ได้น้ำ" loading="lazy" />
+                        <button class="play-btn" aria-label="เล่น กระดี่ได้น้ำ"><svg viewBox="0 0 24 24">
+                                <path d="M6 4l15 8-15 8z" />
+                            </svg></button>
+                    </div>
+                    <h3>กระดี่ได้น้ำ</h3>
+                    <p>อัลบั้มแนะนำ</p>
+                </article>
+
+                <article class="album">
+                    <div class="album-art">
+                        <div class="disc-peek"></div>
+                        <img class="cover"
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnJ21ptXK79hcmag7HrQ_W7U_-3FGcjDLZ0ft0u7DI0Q&s=10"
+                            alt="ปก ฟักทอง" loading="lazy" />
+                        <button class="play-btn" aria-label="เล่น ฟักทอง"><svg viewBox="0 0 24 24">
+                                <path d="M6 4l15 8-15 8z" />
+                            </svg></button>
+                    </div>
+                    <h3>ฟักทอง</h3>
+                    <p>อัลบั้มแนะนำ</p>
+                </article>
+
+                <article class="album">
+                    <div class="album-art">
+                        <div class="disc-peek"></div>
+                        <img class="cover"
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQom3xCprKlK7xazCTwZ-MBuQ1Nte7UedLkuQ5Ey2SvA&s"
+                            alt="ปก สับปะรด" loading="lazy" />
+                        <button class="play-btn" aria-label="เล่น สับปะรด"><svg viewBox="0 0 24 24">
+                                <path d="M6 4l15 8-15 8z" />
+                            </svg></button>
+                    </div>
+                    <h3>สับปะรด</h3>
+                    <p>อัลบั้มแนะนำ</p>
+                </article>
+
+                <article class="album">
+                    <div class="album-art">
+                        <div class="disc-peek"></div>
+                        <img class="cover"
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7xK3cOPBLJIKDYruAl4vmk_cm2050KpLjRyYkhDzfSg&s=10"
+                            alt="ปก รุ้งกินน้ำ" loading="lazy" />
+                        <button class="play-btn" aria-label="เล่น รุ้งกินน้ำ"><svg viewBox="0 0 24 24">
+                                <path d="M6 4l15 8-15 8z" />
+                            </svg></button>
+                    </div>
+                    <h3>รุ้งกินน้ำ</h3>
+                    <p>อัลบั้มแนะนำ</p>
+                </article>
+
+                <article class="album">
+                    <div class="album-art">
+                        <div class="disc-peek"></div>
+                        <img class="cover"
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTEMFIMwLeOV4rkjX9t_sM7oPmm5FEe8YeKxkwNVr_1g&s=10"
+                            alt="ปก บางอ้อ" loading="lazy" />
+                        <button class="play-btn" aria-label="เล่น บางอ้อ"><svg viewBox="0 0 24 24">
+                                <path d="M6 4l15 8-15 8z" />
+                            </svg></button>
+                    </div>
+                    <h3>บางอ้อ</h3>
+                    <p>อัลบั้มแนะนำ</p>
+                </article>
+
+                <article class="album">
+                    <div class="album-art">
+                        <div class="disc-peek"></div>
+                        <img class="cover" src="https://i.scdn.co/image/ab67616d00001e02247b8e511a71f067140a4348"
+                            alt="ปก จินตนาการ" loading="lazy" />
+                        <button class="play-btn" aria-label="เล่น จินตนาการ"><svg viewBox="0 0 24 24">
+                                <path d="M6 4l15 8-15 8z" />
+                            </svg></button>
+                    </div>
+                    <h3>จินตนาการ</h3>
+                    <p>อัลบั้มแนะนำ</p>
+                </article>
+
+                <article class="album">
+                    <div class="album-art">
+                        <div class="disc-peek"></div>
+                        <img class="cover"
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-7OA7k3SlGzDiaIAW_5B6nAWdZHFv1SfB9tAQL3j_6if-I8fVl_cigqkE&s=10"
+                            alt="ปก เด็กเลี้ยงแกะ" loading="lazy" />
+                        <button class="play-btn" aria-label="เล่น เด็กเลี้ยงแกะ"><svg viewBox="0 0 24 24">
+                                <path d="M6 4l15 8-15 8z" />
+                            </svg></button>
+                    </div>
+                    <h3>เด็กเลี้ยงแกะ</h3>
+                    <p>อัลบั้มแนะนำ</p>
+                </article>
+
+                <article class="album">
+                    <div class="album-art">
+                        <div class="disc-peek"></div>
+                        <img class="cover"
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6iL6jQXqXS8KD85sT7ekJ3zGfS4G3T_ODH5YxFjdUnw&s=10"
+                            alt="ปก พักร้อน" loading="lazy" />
+                        <button class="play-btn" aria-label="เล่น พักร้อน"><svg viewBox="0 0 24 24">
+                                <path d="M6 4l15 8-15 8z" />
+                            </svg></button>
+                    </div>
+                    <h3>พักร้อน</h3>
+                    <p>อัลบั้มแนะนำ</p>
+                </article>
+
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-inner">
+            <p>© MoreMusic — ทุกจังหวะมีเรื่องราว</p>
+            <div class="footer-links">
+                <a href="#top">หน้าแรก</a>
+                <a href="#albums">อัลบั้ม</a>
+                <a href="#top">ติดต่อ</a>
             </div>
         </div>
-        <br />
+    </footer>
 
-        <footer class="container-fluid text-center">
-            <p>Footer Text</p>
-        </footer>
-    </body>
+</body>
+
 </html>
