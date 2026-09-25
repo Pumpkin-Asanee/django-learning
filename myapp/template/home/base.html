@@ -1,0 +1,530 @@
+
+
+<!doctype html>
+<html lang="th">
+
+<head>
+    <meta charset="utf-8" />
+    <title>MoreMusic</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg: #1c1420;
+            --bg-alt: #241a2a;
+            --surface: #2e2233;
+            --surface-line: #4a3a4d;
+            --text: #f2e8da;
+            --text-dim: #b9a9bb;
+            --gold: #cf9f3a;
+            --gold-bright: #e3b657;
+            --rust: #c15b34;
+            --disc: #12161b;
+            --disc-groove: rgba(242, 232, 218, 0.06);
+        }
+
+        :root:not([data-theme="light"]) {
+            color-scheme: dark;
+        }
+
+        :root[data-theme="light"] {
+            --bg: #f4ecd8;
+            --bg-alt: #ece0c6;
+            --surface: #fffaf0;
+            --surface-line: #ddc9a3;
+            --text: #241a20;
+            --text-dim: #6b5c53;
+            --gold: #a9781f;
+            --gold-bright: #8a611a;
+            --rust: #a8471f;
+            --disc: #241a20;
+            --disc-groove: rgba(36, 26, 32, 0.08);
+        }
+
+        @media (prefers-color-scheme: light) {
+            :root:not([data-theme="dark"]) {
+                --bg: #f4ecd8;
+                --bg-alt: #ece0c6;
+                --surface: #fffaf0;
+                --surface-line: #ddc9a3;
+                --text: #241a20;
+                --text-dim: #6b5c53;
+                --gold: #a9781f;
+                --gold-bright: #8a611a;
+                --rust: #a8471f;
+                --disc: #241a20;
+                --disc-groove: rgba(36, 26, 32, 0.08);
+                color-scheme: light;
+            }
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-padding-top: calc(4.5rem + env(safe-area-inset-top, 0px));
+            scroll-behavior: smooth;
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--text);
+            font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+            padding-top: env(safe-area-inset-top, 0px);
+            padding-bottom: env(safe-area-inset-bottom, 0px);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        .display {
+            font-family: "Fraunces", Georgia, "Times New Roman", serif;
+        }
+
+        /* ---------- Nav ---------- */
+        header.site-nav {
+            position: sticky;
+            top: 0;
+            top: env(safe-area-inset-top, 0px);
+            z-index: 50;
+            padding-top: env(safe-area-inset-top, 0px);
+            background: color-mix(in srgb, var(--bg) 88%, transparent);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--surface-line);
+        }
+
+        .nav-inner {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 0.9rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .brand {
+            font-family: "Fraunces", serif;
+            font-style: italic;
+            font-weight: 500;
+            font-size: 1.4rem;
+            letter-spacing: 0.01em;
+            color: var(--gold-bright);
+            white-space: nowrap;
+        }
+
+        .brand span {
+            color: var(--text);
+            font-style: normal;
+        }
+
+        nav.links {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        nav.links a {
+            font-size: 0.95rem;
+            color: var(--text-dim);
+            transition: color 0.2s ease;
+        }
+
+        nav.links a:hover,
+        nav.links a:focus-visible {
+            color: var(--text);
+        }
+
+        .login-pill {
+            border: 1px solid var(--surface-line);
+            border-radius: 999px;
+            padding: 0.45rem 1.1rem !important;
+            color: var(--text) !important;
+        }
+
+        .login-pill:hover {
+            border-color: var(--gold);
+        }
+
+        #nav-toggle {
+            display: none;
+        }
+
+        .burger {
+            display: none;
+            width: 2.1rem;
+            height: 2.1rem;
+            border: 1px solid var(--surface-line);
+            border-radius: 8px;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .burger span {
+            width: 18px;
+            height: 2px;
+            background: var(--text);
+            display: block;
+        }
+
+        @media (max-width: 720px) {
+            nav.links {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0;
+                background: var(--bg-alt);
+                border-bottom: 1px solid var(--surface-line);
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.25s ease;
+            }
+
+            nav.links a {
+                padding: 0.9rem 1.5rem;
+                width: 100%;
+                border-top: 1px solid var(--surface-line);
+            }
+
+            #nav-toggle:checked~nav.links {
+                max-height: 260px;
+            }
+
+            .burger {
+                display: inline-flex;
+            }
+        }
+
+        /* ---------- Hero ---------- */
+        .hero {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: clamp(3rem, 8vw, 6rem) 1.5rem clamp(2.5rem, 6vw, 4rem);
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: clamp(2rem, 5vw, 4rem);
+            align-items: center;
+        }
+
+        @media (max-width: 800px) {
+            .hero {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-disc {
+                order: -1;
+                margin: 0 auto;
+            }
+        }
+
+        .eyebrow-note {
+            font-size: 0.95rem;
+            color: var(--gold-bright);
+            margin: 0 0 0.9rem;
+        }
+
+        .hero h1 {
+            margin: 0 0 1.1rem;
+            font-weight: 500;
+            font-size: clamp(2.4rem, 5.6vw, 4rem);
+            line-height: 1.05;
+        }
+
+        .hero p {
+            margin: 0 0 1.8rem;
+            color: var(--text-dim);
+            font-size: 1.08rem;
+            line-height: 1.65;
+            max-width: 46ch;
+        }
+
+        @media (max-width: 800px) {
+            .hero p {
+                margin-inline: auto;
+            }
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: var(--gold);
+            color: #1c1420;
+            font-weight: 600;
+            padding: 0.85rem 1.6rem;
+            border-radius: 999px;
+            transition: background 0.2s ease, transform 0.2s ease;
+        }
+
+        .hero-cta:hover {
+            background: var(--gold-bright);
+            transform: translateY(-1px);
+        }
+
+        .hero-disc {
+            position: relative;
+            width: min(280px, 60vw);
+            aspect-ratio: 1;
+        }
+
+        .hero-disc svg {
+            width: 100%;
+            height: 100%;
+            animation: spin 9s linear infinite;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .hero-disc svg {
+                animation: none;
+            }
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ---------- Album section ---------- */
+        .section {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem clamp(3rem, 6vw, 5rem);
+        }
+
+        .section-head {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 1rem;
+            border-bottom: 1px solid var(--surface-line);
+            padding-bottom: 1rem;
+            margin-bottom: 2.2rem;
+        }
+
+        .section-head h2 {
+            margin: 0;
+            font-weight: 500;
+            font-size: clamp(1.6rem, 3.4vw, 2.3rem);
+        }
+
+        .section-head .count {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+
+        .album-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+            gap: clamp(1.6rem, 3vw, 2.4rem) clamp(1.2rem, 3vw, 2rem);
+        }
+
+        .album {
+            position: relative;
+        }
+
+        .album-art {
+            position: relative;
+            aspect-ratio: 1;
+            isolation: isolate;
+        }
+
+        .album-art .disc-peek {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background:
+                repeating-radial-gradient(circle at center, var(--disc-groove) 0 1px, transparent 1px 4px),
+                radial-gradient(circle at 34% 32%, #3a3f46 0%, var(--disc) 55%);
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+            transform: translateX(0%);
+            transition: transform 0.35s cubic-bezier(.2, .8, .2, 1);
+            z-index: 0;
+        }
+
+        .album-art .disc-peek::after {
+            content: "";
+            position: absolute;
+            inset: 38%;
+            border-radius: 50%;
+            background: var(--gold);
+            box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.3);
+        }
+
+        .album-art .disc-peek::before {
+            content: "";
+            position: absolute;
+            inset: 47%;
+            border-radius: 50%;
+            background: var(--bg);
+        }
+
+        .album-art .cover {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+            transition: transform 0.35s cubic-bezier(.2, .8, .2, 1);
+            background: var(--surface);
+        }
+
+        .album-art:hover .cover,
+        .album-art:focus-within .cover {
+            transform: translateX(-14%) rotate(-2deg);
+        }
+
+        .album-art:hover .disc-peek,
+        .album-art:focus-within .disc-peek {
+            transform: translateX(14%);
+        }
+
+        .play-btn {
+            position: absolute;
+            z-index: 2;
+            right: 0.6rem;
+            bottom: 0.6rem;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            background: var(--gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: scale(0.85);
+            transition: opacity 0.25s ease, transform 0.25s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .album-art:hover .play-btn,
+        .album-art:focus-within .play-btn {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .play-btn svg {
+            width: 14px;
+            height: 14px;
+            fill: #1c1420;
+            margin-left: 2px;
+        }
+
+        .album h3 {
+            margin: 1rem 0 0.2rem;
+            font-family: "Fraunces", serif;
+            font-weight: 500;
+            font-size: 1.08rem;
+        }
+
+        .album p {
+            margin: 0;
+            font-size: 0.85rem;
+            color: var(--text-dim);
+        }
+
+        /* ---------- Footer ---------- */
+        footer {
+            border-top: 1px solid var(--surface-line);
+            background: var(--bg-alt);
+        }
+
+        .footer-inner {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 2.4rem 1.5rem calc(2.4rem + env(safe-area-inset-bottom, 0px));
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .footer-inner p {
+            margin: 0;
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 1.4rem;
+        }
+
+        .footer-links a {
+            font-size: 0.9rem;
+            color: var(--text-dim);
+        }
+
+        .footer-links a:hover {
+            color: var(--gold-bright);
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--gold);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="site-nav">
+        <div class="nav-inner">
+            <a href="#top" class="brand"><span>More</span>Music</a>
+            <input type="checkbox" id="nav-toggle" />
+            <label for="nav-toggle" class="burger" aria-label="เปิดเมนู"><span></span><span></span><span></span></label>
+            <nav class="links">
+                <a href="#top">หน้าแรก</a>
+                <a href="#albums">อัลบั้ม</a>
+                <a href="#top">เกี่ยวกับ</a>
+                <a href="#top">ติดต่อ</a>
+                <a href="{% url 'login' %}" class="login-pill">เข้าสู่ระบบ</a>
+            </nav>
+        </div>
+    </header>
+
+    {% block content %}
+    {% endblock %}
+
+    <footer>
+        <div class="footer-inner">
+            <p>© MoreMusic — ทุกจังหวะมีเรื่องราว</p>
+            <div class="footer-links">
+                <a href="#top">หน้าแรก</a>
+                <a href="#albums">อัลบั้ม</a>
+                <a href="#top">ติดต่อ</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>

@@ -1,0 +1,479 @@
+<!doctype html>
+<html lang="th">
+
+<head>
+    <meta charset="utf-8" />
+    <title>เข้าสู่ระบบ — MoreMusic</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg: #1c1420;
+            --bg-alt: #241a2a;
+            --surface: #2e2233;
+            --surface-line: #4a3a4d;
+            --text: #f2e8da;
+            --text-dim: #b9a9bb;
+            --gold: #cf9f3a;
+            --gold-bright: #e3b657;
+            --danger: #d9643a;
+            --input-bg: #241a2a;
+        }
+
+        :root:not([data-theme="light"]) {
+            color-scheme: dark;
+        }
+
+        :root[data-theme="light"] {
+            --bg: #f4ecd8;
+            --bg-alt: #ece0c6;
+            --surface: #fffaf0;
+            --surface-line: #ddc9a3;
+            --text: #241a20;
+            --text-dim: #6b5c53;
+            --gold: #a9781f;
+            --gold-bright: #8a611a;
+            --danger: #a8471f;
+            --input-bg: #fffdf7;
+        }
+
+        @media (prefers-color-scheme: light) {
+            :root:not([data-theme="dark"]) {
+                --bg: #f4ecd8;
+                --bg-alt: #ece0c6;
+                --surface: #fffaf0;
+                --surface-line: #ddc9a3;
+                --text: #241a20;
+                --text-dim: #6b5c53;
+                --gold: #a9781f;
+                --gold-bright: #8a611a;
+                --danger: #a8471f;
+                --input-bg: #fffdf7;
+                color-scheme: light;
+            }
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--text);
+            font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+            padding-top: env(safe-area-inset-top, 0px);
+            padding-bottom: env(safe-area-inset-bottom, 0px);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        .screen {
+            min-height: 100%;
+            display: grid;
+            grid-template-columns: 1.05fr 1fr;
+        }
+
+        @media (max-width: 860px) {
+            .screen {
+                grid-template-columns: 1fr;
+            }
+
+            .brand-pane {
+                display: none;
+            }
+        }
+
+        /* ---------- left brand pane ---------- */
+        .brand-pane {
+            position: relative;
+            background:
+                radial-gradient(circle at 30% 28%, rgba(207, 159, 58, 0.14), transparent 55%),
+                var(--bg-alt);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: clamp(2rem, 4vw, 3.5rem);
+            overflow: hidden;
+            border-right: 1px solid var(--surface-line);
+        }
+
+        .brand-pane .brand {
+            font-family: "Fraunces", serif;
+            font-style: italic;
+            font-weight: 500;
+            font-size: 1.5rem;
+            color: var(--gold-bright);
+        }
+
+        .brand-pane .brand span {
+            color: var(--text);
+            font-style: normal;
+        }
+
+        .brand-copy h1 {
+            font-family: "Fraunces", serif;
+            font-weight: 500;
+            font-size: clamp(2rem, 3.6vw, 2.8rem);
+            line-height: 1.15;
+            margin: 0 0 0.9rem;
+            max-width: 12ch;
+        }
+
+        .brand-copy p {
+            color: var(--text-dim);
+            max-width: 34ch;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .disc-wrap {
+            position: absolute;
+            right: -60px;
+            bottom: -60px;
+            width: min(320px, 46vw);
+            aspect-ratio: 1;
+            opacity: 0.9;
+        }
+
+        .disc-wrap svg {
+            width: 100%;
+            height: 100%;
+            animation: spin 11s linear infinite;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .disc-wrap svg {
+                animation: none;
+            }
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .brand-foot {
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ---------- right form pane ---------- */
+        .form-pane {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: clamp(1.5rem, 5vw, 3rem);
+        }
+
+        .form-card {
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .form-card h2 {
+            font-family: "Fraunces", serif;
+            font-weight: 500;
+            font-size: clamp(1.7rem, 3vw, 2.1rem);
+            margin: 0 0 0.4rem;
+        }
+
+        .form-card>p.sub {
+            color: var(--text-dim);
+            margin: 0 0 2rem;
+            font-size: 0.95rem;
+        }
+
+        .form-card>p.sub a {
+            color: var(--gold-bright);
+            font-weight: 500;
+        }
+
+        .form-card>p.sub a:hover {
+            text-decoration: underline;
+        }
+
+        .field {
+            margin-bottom: 1.15rem;
+        }
+
+        .field label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            margin-bottom: 0.4rem;
+        }
+
+        .field input {
+            width: 100%;
+            background: var(--input-bg);
+            border: 1px solid var(--surface-line);
+            border-radius: 10px;
+            padding: 0.8rem 0.95rem;
+            color: var(--text);
+            font-size: 0.98rem;
+            font-family: inherit;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .field input::placeholder {
+            color: var(--text-dim);
+            opacity: 0.6;
+        }
+
+        .field input:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px color-mix(in srgb, var(--gold) 25%, transparent);
+        }
+
+        .pw-row {
+            position: relative;
+        }
+
+        .pw-toggle {
+            position: absolute;
+            right: 0.7rem;
+            top: 50%;
+            transform: translateY(-3px);
+            background: none;
+            border: none;
+            color: var(--text-dim);
+            font-size: 0.8rem;
+            cursor: pointer;
+            padding: 0.3rem;
+        }
+
+        .pw-toggle:hover {
+            color: var(--gold-bright);
+        }
+
+        .row-between {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 0.2rem 0 1.6rem;
+            font-size: 0.88rem;
+        }
+
+        .remember {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-dim);
+        }
+
+        .remember input {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--gold);
+        }
+
+        .row-between a {
+            color: var(--text-dim);
+        }
+
+        .row-between a:hover {
+            color: var(--gold-bright);
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: var(--gold);
+            color: #1c1420;
+            font-weight: 600;
+            font-size: 1rem;
+            border: none;
+            border-radius: 10px;
+            padding: 0.9rem;
+            cursor: pointer;
+            transition: background 0.2s ease, transform 0.2s ease;
+        }
+
+        .submit-btn:hover {
+            background: var(--gold-bright);
+            transform: translateY(-1px);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 0.9rem;
+            color: var(--text-dim);
+            font-size: 0.82rem;
+            margin: 1.6rem 0;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: var(--surface-line);
+        }
+
+        .alt-btn {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            background: transparent;
+            border: 1px solid var(--surface-line);
+            color: var(--text);
+            border-radius: 10px;
+            padding: 0.75rem;
+            font-size: 0.92rem;
+            font-family: inherit;
+            cursor: pointer;
+            transition: border-color 0.2s ease, background 0.2s ease;
+        }
+
+        .alt-btn:hover {
+            border-color: var(--gold);
+            background: color-mix(in srgb, var(--gold) 8%, transparent);
+        }
+
+        .alt-btn svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .signup-line {
+            text-align: center;
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            margin-top: 1.8rem;
+        }
+
+        .signup-line a {
+            color: var(--gold-bright);
+            font-weight: 500;
+        }
+
+        .signup-line a:hover {
+            text-decoration: underline;
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--gold);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="screen">
+
+        <div class="brand-pane">
+            <a href="{% url 'home' %}" style="text-decoration: none"><div class="brand"><span>More</span>Music</div></a>
+
+            <div class="brand-copy">
+                <h1>เสียงเพลงรอคุณอยู่</h1>
+                <p>เข้าสู่ระบบเพื่อกลับไปฟังเพลย์ลิสต์และอัลบั้มที่คุณเก็บไว้ ทุกจังหวะยังรอคุณอยู่ตรงนี้</p>
+            </div>
+
+            <div class="disc-wrap" aria-hidden="true">
+                <svg viewBox="0 0 200 200">
+                    <defs>
+                        <radialGradient id="vinylGrad" cx="35%" cy="32%" r="75%">
+                            <stop offset="0%" stop-color="#454b53" />
+                            <stop offset="55%" stop-color="#181c21" />
+                            <stop offset="100%" stop-color="#0d0f12" />
+                        </radialGradient>
+                    </defs>
+                    <circle cx="100" cy="100" r="98" fill="url(#vinylGrad)" />
+                    <g stroke="rgba(242,232,218,0.07)" fill="none">
+                        <circle cx="100" cy="100" r="86" />
+                        <circle cx="100" cy="100" r="74" />
+                        <circle cx="100" cy="100" r="62" />
+                        <circle cx="100" cy="100" r="50" />
+                    </g>
+                    <circle cx="100" cy="100" r="34" fill="#cf9f3a" />
+                    <circle cx="100" cy="100" r="6" fill="#181c21" />
+                </svg>
+            </div>
+
+            <p class="brand-foot">© MoreMusic — ทุกจังหวะมีเรื่องราว</p>
+        </div>
+
+        <div class="form-pane">
+            <div class="form-card">
+                <h2>เข้าสู่ระบบ</h2>
+                <p class="sub">ยังไม่มีบัญชี? <a href="#">สมัครสมาชิกฟรี</a></p>
+
+                <form onsubmit="return false;">
+                    <div class="field">
+                        <label for="email">อีเมลหรือชื่อผู้ใช้</label>
+                        <input id="email" name="email" type="text" placeholder="you@example.com"
+                            autocomplete="username" />
+                    </div>
+
+                    <div class="field">
+                        <label for="password">รหัสผ่าน</label>
+                        <div class="pw-row">
+                            <input id="password" name="password" type="password" placeholder="••••••••"
+                                autocomplete="current-password" />
+                            <button type="button" class="pw-toggle" id="pwToggle">แสดง</button>
+                        </div>
+                    </div>
+
+                    <div class="row-between">
+                        <label class="remember">
+                            <input type="checkbox" />
+                            จดจำฉันไว้
+                        </label>
+                        <a href="#">ลืมรหัสผ่าน?</a>
+                    </div>
+
+                    <button type="submit" class="submit-btn">เข้าสู่ระบบ</button>
+                </form>
+
+                <div class="divider">หรือ</div>
+
+                <button type="button" class="alt-btn">
+                    <svg viewBox="0 0 24 24">
+                        <path fill="#EA4335"
+                            d="M12 10.2v3.9h5.5c-.24 1.3-1.7 3.8-5.5 3.8-3.3 0-6-2.7-6-6.1s2.7-6.1 6-6.1c1.9 0 3.1.8 3.8 1.5l2.6-2.5C16.7 3.1 14.6 2.2 12 2.2 6.9 2.2 2.7 6.4 2.7 11.5S6.9 20.8 12 20.8c6.9 0 8.9-4.8 8.9-7.3 0-.5 0-.9-.1-1.3H12z" />
+                    </svg>
+                    เข้าสู่ระบบด้วย Google
+                </button>
+
+                <p class="signup-line">การเข้าสู่ระบบถือว่ายอมรับ <a href="#">ข้อกำหนดการใช้งาน</a></p>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        document.getElementById('pwToggle').addEventListener('click', function () {
+            var pw = document.getElementById('password');
+            var isText = pw.type === 'text';
+            pw.type = isText ? 'password' : 'text';
+            this.textContent = isText ? 'แสดง' : 'ซ่อน';
+        });
+    </script>
+
+</body>
+
+</html>

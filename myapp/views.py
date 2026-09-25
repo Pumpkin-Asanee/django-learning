@@ -5,3 +5,6 @@ def Home(request):
     return render(request , 'home/home.html')
 
 
+def Login(request):
+    return render(request , "home/login.html")
+
